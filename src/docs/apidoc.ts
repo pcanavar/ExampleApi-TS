@@ -2,23 +2,26 @@
  * @Author: Philippe Canavarro
  * @Date: 2022-12-11 05:30:29
  * @Last Modified by: Phil
- * @Last Modified time: 2022-12-11 05:37:36
+ * @Last Modified time: 2022-12-11 06:15:53
  */
 
 import path from "path";
 import { createDoc } from "apidoc";
 import { log } from "../logger/logger";
 
-export function generateDocs() {
+const fileType = path.extname(__filename)
+const parentDir = path.join(__dirname, '..');
+
+export function generateApiDocs() {
   const doc = createDoc({
     // Necessary Source location for files
-    src: path.resolve("./src/api"),
+    src: path.resolve(`${parentDir}/api`),
     // Can be omitted if dryRun is true
-    dest: path.resolve("./src/docs/static_files/docs"),
+    dest: path.resolve(`${parentDir}/docs/static_files/docs`),
     // Template for Docs
-    template: path.resolve("./src/docs/template"),
+    template: path.resolve(`${parentDir}/docs/template`),
     // Configuration file
-    config: path.resolve("./src/docs/apidocconfig.ts"),
+    config: path.resolve(`${parentDir}/docs/apidocconfig${fileType}`),
     // Include Private APIs
     apiprivate: false,
     // Disable output files:
@@ -29,13 +32,13 @@ export function generateDocs() {
 
   const privatedoc = createDoc({
     // Necessary Source location for files
-    src: path.resolve("./src/api"),
+    src: path.resolve(`${parentDir}/api`),
     // Can be omitted if dryRun is true
-    dest: path.resolve("./src/docs/static_files/private"),
+    dest: path.resolve(`${parentDir}/docs/static_files/private`),
     // Template for Docs
-    template: path.resolve("./src/docs/template"),
+    template: path.resolve(`${parentDir}/docs/template`),
     // Configuration file
-    config: path.resolve("./src/docs/apidocconfig.ts"),
+    config: path.resolve(`${parentDir}/docs/apidocconfig${fileType}`),
     // Include Private APIs
     apiprivate: true,
     // Disable output files:

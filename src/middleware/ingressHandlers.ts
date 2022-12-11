@@ -2,30 +2,10 @@
  * @Author: Philippe Canavarro 
  * @Date: 2022-12-10 22:42:48 
  * @Last Modified by: Phil
- * @Last Modified time: 2022-12-10 23:12:36
+ * @Last Modified time: 2022-12-11 06:07:52
  */
 
-import express, { Request, Response, RequestHandler } from 'express';
-
-interface HelloResponse {
-  hello: string;
-}
-
-type HelloBuilder = (name: string) => HelloResponse;
-
-const helloBuilder: HelloBuilder = name => ({ hello: name });
-
-const rootHandler = (_req: Request, res: Response) => {
-  return res.send('API is working 🤓');
-};
-
- const helloHandler = (req: Request, res: Response) => {
-  const { params } = req;
-  const { name = 'World' } = params;
-  const response = helloBuilder(name);
-
-  return res.json(response);
-};
+import { RequestHandler } from 'express';
 
 // create a middleware function to check for keys in the request body, query, and params
 const populateBodyWithParams : RequestHandler = (req, res, next) => {
@@ -59,4 +39,4 @@ const populateBodyWithParams : RequestHandler = (req, res, next) => {
     next();
   }
 
-export { rootHandler , helloHandler, populateBodyWithParams }
+export {  populateBodyWithParams }
