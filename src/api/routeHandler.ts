@@ -2,11 +2,12 @@
  * @Author: Philippe Canavarro
  * @Date: 2022-12-10 23:24:50
  * @Last Modified by: Phil
- * @Last Modified time: 2022-12-11 04:36:54
+ * @Last Modified time: 2022-12-11 05:12:51
  */
 
 import * as fs from "fs";
 import * as path from "path";
+import { log } from "../logger/logger";
 import { ExpressAPIApp } from "./express";
 
 // Declare Defaults for this Handler
@@ -17,7 +18,8 @@ const defaultFolderDir = path.join(__dirname, "endpoints").replace(/\\/g, "/");
  * @description This function will setup all the endpoints localized in the /endpoints folder.
  */
 export function setupRoutes(): void {
-  console.log("\n\nInitializing API\n\n• Loading Routes:\n");
+  log.info("Initializing API");
+  log.info("• Loading Routes:");
 
   // Retireves a list from the correct folder of all files in there.
   const fileList = getFileListFromFolder();
@@ -36,49 +38,49 @@ export function setupRoutes(): void {
       typeof endpoint.handlers !== "undefined"
         ? ExpressAPIApp.get(url, ...endpoint.handlers, endpoint.get)
         : ExpressAPIApp.get(url, endpoint.get);
-      console.log(`	• Loaded Endpoint: ${url} (get)`);
+      log.info(`	• Loaded Endpoint: ${url} (get)`);
     }
     if (endpoint && typeof endpoint.post === "function") {
       typeof endpoint.handlers !== "undefined"
         ? ExpressAPIApp.post(url, ...endpoint.handlers, endpoint.post)
         : ExpressAPIApp.post(url, endpoint.post);
-      console.log(`	• Loaded Endpoint: ${url} (post)`);
+      log.info(`	• Loaded Endpoint: ${url} (post)`);
     }
     if (endpoint && typeof endpoint.put === "function") {
       typeof endpoint.handlers !== "undefined"
         ? ExpressAPIApp.put(url, ...endpoint.handlers, endpoint.put)
         : ExpressAPIApp.put(url, endpoint.put);
-      console.log(`	• Loaded Endpoint: ${url} (put)`);
+      log.info(`	• Loaded Endpoint: ${url} (put)`);
     }
     if (endpoint && typeof endpoint.delete === "function") {
       typeof endpoint.handlers !== "undefined"
         ? ExpressAPIApp.delete(url, ...endpoint.handlers, endpoint.delete)
         : ExpressAPIApp.delete(url, endpoint.delete);
-      console.log(`	• Loaded Endpoint: ${url} (delete)`);
+      log.info(`	• Loaded Endpoint: ${url} (delete)`);
     }
     if (endpoint && typeof endpoint.head === "function") {
       typeof endpoint.handlers !== "undefined"
         ? ExpressAPIApp.head(url, ...endpoint.handlers, endpoint.head)
         : ExpressAPIApp.head(url, endpoint.head);
-      console.log(`	• Loaded Endpoint: ${url} (head)`);
+      log.info(`	• Loaded Endpoint: ${url} (head)`);
     }
     if (endpoint && typeof endpoint.connect === "function") {
       typeof endpoint.handlers !== "undefined"
         ? ExpressAPIApp.connect(url, ...endpoint.handlers, endpoint.connect)
         : ExpressAPIApp.connect(url, endpoint.connect);
-      console.log(`	• Loaded Endpoint: ${url} (connect)`);
+      log.info(`	• Loaded Endpoint: ${url} (connect)`);
     }
     if (endpoint && typeof endpoint.options === "function") {
       typeof endpoint.handlers !== "undefined"
         ? ExpressAPIApp.options(url, ...endpoint.handlers, endpoint.options)
         : ExpressAPIApp.options(url, endpoint.options);
-      console.log(`	• Loaded Endpoint: ${url} (options)`);
+      log.info(`	• Loaded Endpoint: ${url} (options)`);
     }
     if (endpoint && typeof endpoint.trace === "function") {
       typeof endpoint.handlers !== "undefined"
         ? ExpressAPIApp.trace(url, ...endpoint.handlers, endpoint.trace)
         : ExpressAPIApp.trace(url, endpoint.trace);
-      console.log(`	• Loaded Endpoint: ${url} (trace)`);
+      log.info(`	• Loaded Endpoint: ${url} (trace)`);
     }
   }
 }
