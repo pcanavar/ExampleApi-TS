@@ -2,10 +2,11 @@
  * @Author: Philippe Canavarro
  * @Date: 2022-12-10 22:42:40
  * @Last Modified by: Phil
- * @Last Modified time: 2022-12-11 04:36:48
+ * @Last Modified time: 2022-12-11 05:39:03
  */
 
 import express, { NextFunction, Express } from "express";
+import path from "path";
 import { projectConfigs } from "../config";
 import { populateBodyWithParams } from "../middleware/ingressHandlers";
 import { setupRoutes } from "./routeHandler";
@@ -91,6 +92,8 @@ export class ExpressAPIApp {
    * @description Initialize Basic Endpoints that are required.
    */
   private static initializeRequiredAPIs(): void {
+    /** Documentation serve */
+		this.app.use( express.static( path.resolve( "./src/docs/static_files" ) ) );
     ExpressAPIApp.app.get("/", (req, res) => res.redirect("docs/"));
     ExpressAPIApp.app.get("/healthz", (req, res) =>
       res.status(200).send({ status: "ok" })

@@ -2,7 +2,7 @@
  * @Author: Philippe Canavarro
  * @Date: 2022-12-11 04:35:29
  * @Last Modified by: Phil
- * @Last Modified time: 2022-12-11 04:37:04
+ * @Last Modified time: 2022-12-11 05:49:42
  */
 
 import { Request, Response, NextFunction } from "express";
@@ -16,19 +16,6 @@ export function checkBodyNotEmpty(
     next();
     return;
   } else {
-    res.status(500).send();
-  }
-}
-
-export function checkBodyHasTestKey(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  if (Object.keys(req.body).includes("test")) {
-    next();
-    return;
-  } else {
-    res.status(500).send();
+    res.status(400).send();
   }
 }

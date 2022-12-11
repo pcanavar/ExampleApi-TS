@@ -2,7 +2,7 @@
  * @Author: Philippe Canavarro
  * @Date: 2022-12-10 23:24:50
  * @Last Modified by: Phil
- * @Last Modified time: 2022-12-11 05:12:51
+ * @Last Modified time: 2022-12-11 05:17:39
  */
 
 import * as fs from "fs";
@@ -99,9 +99,11 @@ export function getFileListFromFolder(
   const FolderPath = path.resolve(folderDir);
   const files = fs.readdirSync(FolderPath, { withFileTypes: true });
 
+  // Goes through each file in the folder and build a list
   for (const file of files) {
     if (file.isDirectory()) {
       const newFolder = file.name;
+      // If there is a folder in, run this recursively and get the file list for that folder too.
       fileList.push(...getFileListFromFolder(`${folderDir}/${newFolder}`));
     } else if (file.name.endsWith(fileType)) {
       let filePath = `${FolderPath}/${file.name}`;
