@@ -2,18 +2,15 @@
  * @Author: Philippe Canavarro
  * @Date: 2022-12-10 22:42:40
  * @Last Modified by: Phil
- * @Last Modified time: 2022-12-10 23:20:35
+ * @Last Modified time: 2022-12-11 04:36:48
  */
 
 import express, { NextFunction, Express } from "express";
 import { projectConfigs } from "../config";
-import {
-  rootHandler,
-  helloHandler,
-  populateBodyWithParams,
-} from "../middleware/ingressHandlers";
+import { populateBodyWithParams } from "../middleware/ingressHandlers";
+import { setupRoutes } from "./routeHandler";
 
-export class ExpressAPI {
+export class ExpressAPIApp {
   /**
    * Definint the static private properties for this class
    */
@@ -37,11 +34,8 @@ export class ExpressAPI {
      */
     this.app.use(populateBodyWithParams);
 
-    this.initializeRequiredAPIs()
-
-    //! TODO ADD THE ENDPOINT BUILDER HERE...
-    this.app.get("/", rootHandler); //! EXAMPLE
-    this.app.get("/hello/:name", helloHandler); //! EXAMPLE
+    this.initializeRequiredAPIs();
+    setupRoutes();
 
     /**
      * Handles all not found pages.
@@ -55,7 +49,7 @@ export class ExpressAPI {
      * Starts the Express Server
      * Using the defined port or the one from the Env Variable
      */
-    this.app.listen(ExpressAPI._port, () => {
+    this.app.listen(ExpressAPIApp._port, () => {
       console.log(`
 
       EEEEEEE                                    lll          AAA   PPPPPP  IIIII 
@@ -73,27 +67,61 @@ export class ExpressAPI {
      `);
     });
   }
-  
+
   /**
    * Get & setters
-  */
- static get app() {
-     return ExpressAPI._app;
-    }
-    
-    static get port() {
-        return ExpressAPI._port;
-    }
-    
-    private static set port(value: number) {
-        ExpressAPI._port = value;
-    }
+   */
+  private static get app() {
+    return ExpressAPIApp._app;
+  }
 
-    private static initializeRequiredAPIs() {
-      this.app.get("/", (req, res) => res.redirect("docs/"));
-      this.app.get("/healthz", (req, res) => res.status(200).send( { status: "ok" } ));
-      this.app.get("/robots.txt", (req, res) => {
-        res.status(200).send("User-agent: *\nDisallow: /");
-      });
-    }
+  static get port() {
+    return ExpressAPIApp._port;
+  }
+
+  private static set port(value: number) {
+    ExpressAPIApp._port = value;
+  }
+
+  /**
+   * Methods
+   */
+
+  /**
+   * @description Initialize Basic Endpoints that are required.
+   */
+  private static initializeRequiredAPIs(): void {
+    ExpressAPIApp.app.get("/", (req, res) => res.redirect("docs/"));
+    ExpressAPIApp.app.get("/healthz", (req, res) =>
+      res.status(200).send({ status: "ok" })
+    );
+    ExpressAPIApp.app.get("/robots.txt", (req, res) => {
+      res.status(200).send("User-agent: *\nDisallow: /");
+    });
+  }
+
+  public static get(url: string, ...handlers: any) {
+    ExpressAPIApp._app.get(url, ...handlers);
+  }
+  public static head(url: string, ...handlers: any) {
+    ExpressAPIApp._app.head(url, ...handlers);
+  }
+  public static post(url: string, ...handlers: any) {
+    ExpressAPIApp._app.post(url, ...handlers);
+  }
+  public static put(url: string, ...handlers: any) {
+    ExpressAPIApp._app.put(url, ...handlers);
+  }
+  public static delete(url: string, ...handlers: any) {
+    ExpressAPIApp._app.delete(url, ...handlers);
+  }
+  public static connect(url: string, ...handlers: any) {
+    ExpressAPIApp._app.connect(url, ...handlers);
+  }
+  public static options(url: string, ...handlers: any) {
+    ExpressAPIApp._app.options(url, ...handlers);
+  }
+  public static trace(url: string, ...handlers: any) {
+    ExpressAPIApp._app.trace(url, ...handlers);
+  }
 }

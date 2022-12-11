@@ -1,10 +1,10 @@
 /*
- * @Author: Philippe Canavarro 
- * @Date: 2022-12-10 22:42:55 
+ * @Author: Philippe Canavarro
+ * @Date: 2022-12-10 22:42:55
  * @Last Modified by: Phil
- * @Last Modified time: 2022-12-10 22:48:15
+ * @Last Modified time: 2022-12-11 04:36:38
  */
 
-import { ExpressAPI } from "./api/express";
+import { ExpressAPIApp } from "./api/express";
 
-ExpressAPI.initialize()
+ExpressAPIApp.initialize();
